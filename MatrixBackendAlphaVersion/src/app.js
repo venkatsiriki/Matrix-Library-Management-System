@@ -27,6 +27,15 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Health check route
+app.get("/api", (req, res) => {
+  res.json({ 
+    message: "Matrix LMS API is running", 
+    status: "success",
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/students", studentRoutes);
