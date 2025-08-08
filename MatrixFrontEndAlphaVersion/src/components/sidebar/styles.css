@@ -1,0 +1,95 @@
+/* Sidebar Scrollbar */
+.scrollbar-hidden::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.scrollbar-hidden::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-hidden::-webkit-scrollbar-thumb {
+  background: rgba(203, 213, 225, 0.5);
+  border-radius: 2px;
+}
+
+.dark .scrollbar-hidden::-webkit-scrollbar-thumb {
+  background: rgba(71, 85, 105, 0.5);
+}
+
+/* Sidebar Link Hover Effects */
+.sidebar-link {
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%) scaleX(0);
+  height: 80%;
+  width: 4px;
+  background: linear-gradient(to bottom, #4318FF, #868CFF);
+  border-radius: 0 4px 4px 0;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar-link:hover::before,
+.sidebar-link.active::before {
+  transform: translateY(-50%) scaleX(1);
+  opacity: 1;
+}
+
+.dark .sidebar-link::before {
+  background: linear-gradient(to bottom, #7B6AFF, #A39BFF);
+}
+
+/* Sidebar Background Pattern Animation */
+@keyframes patternMove {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 50px 50px;
+  }
+}
+
+.sidebar-pattern {
+  animation: patternMove 20s linear infinite;
+}
+
+/* Logo Container Glow Effect */
+.logo-container {
+  position: relative;
+}
+
+.logo-container::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(45deg, rgba(67, 24, 255, 0.1), rgba(134, 140, 255, 0.1));
+  border-radius: inherit;
+  z-index: -1;
+  transition: all 0.3s ease-in-out;
+}
+
+.dark .logo-container::after {
+  background: linear-gradient(45deg, rgba(123, 106, 255, 0.1), rgba(163, 155, 255, 0.1));
+}
+
+/* Sidebar Card Hover Effect */
+.sidebar-card {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.sidebar-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.1);
+}
+
+.dark .sidebar-card:hover {
+  box-shadow: 0 8px 16px -4px rgba(0, 0, 0, 0.2);
+} 

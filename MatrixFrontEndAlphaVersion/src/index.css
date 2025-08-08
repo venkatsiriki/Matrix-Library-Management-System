@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+	body {
+		@apply transition-colors duration-200;
+	}
+
+	html.dark {
+		@apply bg-gray-900;
+		color-scheme: dark;
+	}
+
+	html {
+		@apply bg-white;
+		color-scheme: light;
+		font-family: 'DM Sans', sans-serif !important;
+		font-feature-settings: 'kern' !important;
+		-webkit-font-smoothing: antialiased;
+		letter-spacing: -0.5px;
+	}
+}
+
+/* Smooth transitions for theme changes */
+.transition-theme {
+	@apply transition-all duration-200;
+}
+
+/* Dark mode specific styles */
+.dark .dark\:theme-shadow {
+	@apply shadow-card-dark;
+}
+
+.dark .dark\:theme-bg {
+	@apply bg-navy-900;
+}
+
+.dark .dark\:theme-text {
+	@apply text-white;
+}
+
+/* Light mode specific styles */
+.light .light\:theme-shadow {
+	@apply shadow-card-light;
+}
+
+.light .light\:theme-bg {
+	@apply bg-white;
+}
+
+.light .light\:theme-text {
+	@apply text-gray-900;
+}
+
+/* Grid Pattern Background */
+.bg-grid-slate-100 {
+	background-image: linear-gradient(to right, rgba(148, 163, 184, 0.1) 1px, transparent 1px),
+		linear-gradient(to bottom, rgba(148, 163, 184, 0.1) 1px, transparent 1px);
+	background-size: 24px 24px;
+}
+
+.bg-grid-slate-700\/25 {
+	background-image: linear-gradient(to right, rgba(51, 65, 85, 0.25) 1px, transparent 1px),
+		linear-gradient(to bottom, rgba(51, 65, 85, 0.25) 1px, transparent 1px);
+	background-size: 24px 24px;
+}
+
+input.defaultCheckbox::before {
+	content: url(../src/assets/svg/checked.svg); 
+	color: white;
+	opacity: 0; 
+	height: 16px; 
+	width: 16px;
+	position: absolute; 
+	left: 50%;
+	transform: translate(-50%, 0px);
+} 
+
+input:checked.defaultCheckbox::before { 
+	opacity: 1;
+}
+
+/* Hide scrollbar globally but allow scrolling */
+html, body, * {
+	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none;  /* IE and Edge */
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar {
+	display: none; /* Chrome, Safari, Opera */
+}
