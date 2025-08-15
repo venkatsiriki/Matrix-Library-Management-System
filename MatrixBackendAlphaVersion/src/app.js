@@ -24,24 +24,16 @@ const corsOptions = {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
-    const allowedOrigins = [
-      'http://localhost:3000',
-      'https://matrix-library-management-system.vercel.app',
-      'https://matrix-library-management-system.vercel.app/'
-    ];
-    
-    // In development, allow all origins
-    if (process.env.NODE_ENV === 'development') {
+    // Allow all Vercel domains (main and preview URLs)
+    if (origin.includes('vercel.app') || origin.includes('localhost')) {
       return callback(null, true);
     }
     
-    // In production, check against allowed origins
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log('CORS blocked origin:', origin);
-      callback(null, true); // Temporarily allow all for debugging
-    }
+    // Log blocked origins for debugging
+    console.log('CORS blocked origin:', origin);
+    
+    // Temporarily allow all origins for debugging
+    callback(null, true);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
