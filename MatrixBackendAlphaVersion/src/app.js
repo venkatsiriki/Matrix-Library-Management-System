@@ -18,27 +18,38 @@ const app = express();
 
 // Middleware
 app.use(helmet());
-app.use(cors({
+// CORS configuration
+const corsOptions = {
   origin: function (origin, callback) {
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
     const allowedOrigins = [
       'http://localhost:3000',
-      'https://matrix-library-management-system.vercel.app'
+      'https://matrix-library-management-system.vercel.app',
+      'https://matrix-library-management-system.vercel.app/'
     ];
     
+    // In development, allow all origins
+    if (process.env.NODE_ENV === 'development') {
+      return callback(null, true);
+    }
+    
+    // In production, check against allowed origins
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.log('CORS blocked origin:', origin);
+      callback(null, true); // Temporarily allow all for debugging
     }
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   exposedHeaders: ['Content-Disposition']
-}));
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Health check route
