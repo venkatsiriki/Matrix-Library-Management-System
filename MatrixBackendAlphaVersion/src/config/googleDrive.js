@@ -4,7 +4,7 @@ require('dotenv').config();
 let drive = null;
 let FOLDER_ID = process.env.GOOGLE_DRIVE_FOLDER_ID || '1eNzHigzp8I1cYQi1FZ03MUeoXb4myCXn';
 
-// Only initialize Google Drive if credentials are provided
+// Only initialize Google Drive if credentials are provided and valid
 if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
   try {
     // Parse the base64 encoded credentials
@@ -23,6 +23,7 @@ if (process.env.GOOGLE_APPLICATION_CREDENTIALS_BASE64) {
   } catch (error) {
     console.error('Failed to initialize Google Drive API:', error.message);
     console.log('Google Drive features will be disabled');
+    console.log('To fix: Remove GOOGLE_APPLICATION_CREDENTIALS_BASE64 or provide valid base64 JSON');
   }
 } else {
   console.log('GOOGLE_APPLICATION_CREDENTIALS_BASE64 not set - Google Drive features disabled');

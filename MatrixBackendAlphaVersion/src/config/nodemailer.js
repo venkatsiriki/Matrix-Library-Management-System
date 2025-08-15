@@ -1,26 +1,49 @@
 const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD
-  },
-  tls: {
-    rejectUnauthorized: false // Allow self-signed certificates
+// Create transporter with better error handling
+const createTransporter = () => {
+  // Check if email credentials are available
+  if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+    console.warn('Email credentials not found. Email functionality will be disabled.');
+    return null;
   }
-});
 
-// Verify transporter connection
-transporter.verify(function(error, success) {
-  if (error) {
-    console.error('Nodemailer transporter verification failed:', error);
-  } else {
-    console.log('Nodemailer server is ready to send emails');
-  }
-});
+  return nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASSWORD
+    },
+    tls: {
+      rejectUnauthorized: false
+    }
+  });
+};
+
+const transporter = createTransporter();
+
+// Verify transporter connection only if credentials are available
+if (transporter) {
+  transporter.verify(function(error, success) {
+    if (error) {
+      console.error('Nodemailer transporter verification failed:', error);
+      console.log('To fix Gmail SMTP issues:');
+      console.log('1. Enable 2-factor authentication on your Gmail account');
+      console.log('2. Generate an App Password: https://myaccount.google.com/apppasswords');
+      console.log('3. Use the App Password instead of your regular password');
+    } else {
+      console.log('Nodemailer server is ready to send emails');
+    }
+  });
+}
 
 const sendEmail = async (to, subject, html) => {
+  // Check if email is configured
+  if (!transporter) {
+    console.warn('Email not configured. Skipping email send.');
+    return false;
+  }
+
   if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
     console.error('Email configuration missing. Please set EMAIL_USER and EMAIL_PASSWORD in environment variables.');
     throw new Error('Email configuration missing');
@@ -44,7 +67,10 @@ const sendEmail = async (to, subject, html) => {
       code: error.code,
       command: error.command
     });
-    throw error; // Throw the error to be handled by the controller
+    
+    // Don't throw error for email failures - just log and continue
+    console.warn('Email sending failed, but continuing with operation');
+    return false;
   }
 };
 
