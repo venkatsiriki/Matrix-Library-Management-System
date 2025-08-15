@@ -623,12 +623,7 @@ export default function SignIn() {
       return;
     }
 
-    // Client-side role validation
-    if (userType === 'admin' && formData.email !== 'admin@mits.ac.in') {
-      setError('Please use admin@mits.ac.in for admin login');
-      setIsLoading(false);
-      return;
-    }
+    // Client-side role validation removed - allow any admin email
 
     try {
       const response = await axios.post(`${API_URL}/api/auth/login`, {
