@@ -587,7 +587,7 @@ export default function SignIn() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-      axios.get(`${API_URL}/api/auth/me`, {
+              axios.get(`${API_URL}/api/auth/me`, {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then(response => {
@@ -624,14 +624,14 @@ export default function SignIn() {
     }
 
     // Client-side role validation
-    if (userType === 'admin' && formData.email !== 'admin@matrix.com') {
-      setError('Please use admin@matrix.com for admin login');
+    if (userType === 'admin' && formData.email !== 'admin@mits.ac.in') {
+      setError('Please use admin@mits.ac.in for admin login');
       setIsLoading(false);
       return;
     }
 
     try {
-      const response = await axios.post(`${API_URL}/auth/login`, {
+      const response = await axios.post(`${API_URL}/api/auth/login`, {
         email: formData.email,
         password: formData.password,
         role: userType

@@ -64,7 +64,7 @@ const OverallAnalysis = () => {
       params.append('page', page);
       params.append('limit', 10);
       
-      const response = await axios.get(`${API_URL}/api/activity-logs/overall-analysis/data?${params}`, {
+              const response = await axios.get(`${API_URL}/api/activity-logs/overall-analysis/data?${params}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       
@@ -99,7 +99,7 @@ const OverallAnalysis = () => {
       if (fromDate) params.append('fromDate', fromDate);
       if (toDate) params.append('toDate', toDate);
       
-      const response = await axios.get(`${API_URL}/api/activity-logs/all?${params}`, {
+              const response = await axios.get(`${API_URL}/api/activity-logs/all?${params}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       

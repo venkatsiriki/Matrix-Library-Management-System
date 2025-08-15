@@ -57,10 +57,10 @@ const Scanner = () => {
       try {
         const token = localStorage.getItem('token');
         const [logsResponse, seatsResponse] = await Promise.all([
-          axios.get(`${API_URL}/api/activity-logs/today`, {
+                      axios.get(`${API_URL}/api/activity-logs/today`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get(`${API_URL}/api/activity-logs/seats`, {
+                      axios.get(`${API_URL}/api/activity-logs/seats`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -239,7 +239,7 @@ const Scanner = () => {
   const fetchSeatCounts = useCallback(async () => {
     try {
       const token = localStorage.getItem('token');
-      const seatsResponse = await axios.get(`${API_URL}/api/activity-logs/seats`, {
+              const seatsResponse = await axios.get(`${API_URL}/api/activity-logs/seats`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setState((prev) => ({
@@ -271,7 +271,7 @@ const Scanner = () => {
       console.log('Scanning roll number:', id);
       console.log('Token:', token ? 'Present' : 'Missing');
       console.log('Selected section:', section);
-      const studentResponse = await axios.get(`${API_URL}/api/students/${id}`, {
+              const studentResponse = await axios.get(`${API_URL}/api/students/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log('Student response:', studentResponse.data);
@@ -431,8 +431,8 @@ const Scanner = () => {
 
       if (activeLog) {
         console.log(`Checking out random student: rollNumber=${student.rollNumber}, section=${section}`);
-        const response = await axios.post(
-          `${API_URL}/api/activity-logs/check-out`,
+                  const response = await axios.post(
+            `${API_URL}/api/activity-logs/check-out`,
           { rollNumber: student.rollNumber, section: seatSection },
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -468,8 +468,8 @@ const Scanner = () => {
         await fetchSeatCounts();
       } else {
         console.log(`Checking in random student: rollNumber=${student.rollNumber}, section=${section}`);
-        const response = await axios.post(
-          `${API_URL}/api/activity-logs/check-in`,
+                  const response = await axios.post(
+            `${API_URL}/api/activity-logs/check-in`,
           { rollNumber: student.rollNumber, section: seatSection },
           { headers: { Authorization: `Bearer ${token}` } }
         );

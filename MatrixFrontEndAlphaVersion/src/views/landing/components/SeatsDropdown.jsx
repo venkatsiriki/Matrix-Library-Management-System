@@ -55,7 +55,7 @@ const SeatsDropdown = ({ isDarkMode }) => {
 
   const fetchSeats = useCallback(async (retryCount = 0) => {
     try {
-      const response = await axios.get(`${API_URL}/api/activity-logs/seats`, {
+              const response = await axios.get(`${API_URL}/api/activity-logs/seats`, {
         timeout: 5000,
       });
       const data = response.data;
