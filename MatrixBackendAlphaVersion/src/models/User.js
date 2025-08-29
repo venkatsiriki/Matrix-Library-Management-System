@@ -2,40 +2,13 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 const UserSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  role: { type: String, enum: ["admin", "student"], required: true },
-  name: { type: String, required: true },
-  // Student-specific fields
-  department: { 
-    type: String, 
-    required: function() { return this.role === 'student'; },
-    default: function() { return this.role === 'student' ? undefined : 'N/A'; }
-  },
-  rollNumber: { 
-    type: String, 
-    required: function() { return this.role === 'student'; },
-    unique: function() { return this.role === 'student'; },
-    sparse: true // Allows null/undefined for non-students
-  },
-  batch: { 
-    type: String, 
-    required: function() { return this.role === 'student'; },
-    default: function() { return this.role === 'student' ? undefined : 'N/A'; }
-  },
-  semester: { 
-    type: Number, 
-    min: 1,
-    max: 8,
-    required: function() { return this.role === 'student'; }
-  },
-  section: { 
-    type: String, 
-    required: function() { return this.role === 'student'; },
-    default: function() { return this.role === 'student' ? undefined : 'N/A'; }
-  },
-  createdAt: { type: Date, default: Date.now },
-});
+  name: { type: String },
+  email: { type: String, unique: true, sparse: true },
+  password: { type: String },
+  role: { type: String, default: 'admin' },
+  googleId: { type: String },
+  matrixMail: { type: String }
+}, { timestamps: true });
 
 UserSchema.pre("save", async function (next) {
   if (this.isModified("password")) {
@@ -58,4 +31,4 @@ UserSchema.virtual('studentId').get(function() {
 UserSchema.set('toJSON', { virtuals: true });
 UserSchema.set('toObject', { virtuals: true });
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.models.User || mongoose.model("User", UserSchema);

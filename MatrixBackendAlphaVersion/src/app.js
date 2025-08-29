@@ -1,6 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
+const session = require("express-session");
+const passport = require("passport");
+const configurePassport = require("./config/passport");
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const studentRoutes = require("./routes/studentRoutes");
@@ -44,6 +47,20 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+// Sessions (needed for Passport)
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "matrixSecret",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Passport
+configurePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Root route for health/info
 app.get("/", (req, res) => {
   res.send("Welcome to Matrix LMS Backend 🎉");
@@ -69,6 +86,16 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/books", bookRoutes);
 app.use("/api/racks", rackRoutes);
 app.use("/api/rack-assignments", rackAssignmentRoutes);
+
+// OAuth routes
+app.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (req, res) => {
+    res.redirect(process.env.POST_LOGIN_REDIRECT || "https://matrix-library-management-system.vercel.app/student/dashboard");
+  }
+);
 
 // Error Handler
 app.use(errorHandler);
