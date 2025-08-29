@@ -44,6 +44,11 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+// Root route for health/info
+app.get("/", (req, res) => {
+  res.send("Welcome to Matrix LMS Backend 🎉");
+});
+
 // Health check route
 app.get("/api", (req, res) => {
   res.json({ 
