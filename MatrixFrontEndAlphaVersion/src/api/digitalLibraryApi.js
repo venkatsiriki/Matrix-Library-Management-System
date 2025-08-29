@@ -4,7 +4,7 @@ import { getAuthHeader, formatErrorMessage } from './utils';
 
 export const getPublicResources = async (filters = {}) => {
   try {
-    const response = await axios.get(`${API_URL}/digital-library/public`, {
+    const response = await axios.get(`${API_URL}/api/digital-library/public`, {
       params: filters
     });
     return response.data.data;
@@ -15,7 +15,7 @@ export const getPublicResources = async (filters = {}) => {
 
 export const getResources = async (filters = {}) => {
   try {
-    const response = await axios.get(`${API_URL}/digital-library`, {
+    const response = await axios.get(`${API_URL}/api/digital-library`, {
       params: filters,
       headers: getAuthHeader()
     });
@@ -27,7 +27,7 @@ export const getResources = async (filters = {}) => {
 
 export const getResource = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/digital-library/${id}`, {
+    const response = await axios.get(`${API_URL}/api/digital-library/${id}`, {
       headers: getAuthHeader()
     });
     return response.data.data;
@@ -38,7 +38,7 @@ export const getResource = async (id) => {
 
 export const uploadResource = async (formData) => {
   try {
-    const response = await axios.post(`${API_URL}/digital-library`, formData, {
+    const response = await axios.post(`${API_URL}/api/digital-library`, formData, {
       headers: {
         ...getAuthHeader(),
         'Content-Type': 'multipart/form-data'
@@ -55,7 +55,7 @@ export const updateResource = async (id, data, isMultipart = false) => {
     const headers = isMultipart
       ? { ...getAuthHeader(), 'Content-Type': 'multipart/form-data' }
       : { ...getAuthHeader() };
-    const response = await axios.put(`${API_URL}/digital-library/${id}`, data, {
+    const response = await axios.put(`${API_URL}/api/digital-library/${id}`, data, {
       headers
     });
     return response.data.data;
@@ -66,7 +66,7 @@ export const updateResource = async (id, data, isMultipart = false) => {
 
 export const deleteResource = async (id) => {
   try {
-    const response = await axios.delete(`${API_URL}/digital-library/${id}`, {
+    const response = await axios.delete(`${API_URL}/api/digital-library/${id}`, {
       headers: getAuthHeader()
     });
     return response.data;
@@ -78,7 +78,7 @@ export const deleteResource = async (id) => {
 
 export const downloadResource = async (id) => {
   try {
-    const response = await axios.get(`${API_URL}/digital-library/${id}/download`, {
+    const response = await axios.get(`${API_URL}/api/digital-library/${id}/download`, {
       headers: getAuthHeader(),
       responseType: 'blob'
     });

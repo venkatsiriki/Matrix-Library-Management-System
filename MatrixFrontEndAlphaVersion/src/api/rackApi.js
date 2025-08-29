@@ -3,7 +3,7 @@ import { API_URL } from './config';
 // Get all racks with their information
 export const getAllRacks = async () => {
   try {
-    const response = await fetch(`${API_URL}/racks`);
+    const response = await fetch(`${API_URL}/api/racks`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -17,7 +17,7 @@ export const getAllRacks = async () => {
 // Get all rack assignments (books with their locations)
 export const getAllRackAssignments = async () => {
   try {
-    const response = await fetch(`${API_URL}/rack-assignments`);
+    const response = await fetch(`${API_URL}/api/rack-assignments`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -31,7 +31,7 @@ export const getAllRackAssignments = async () => {
 // Get books by department
 export const getBooksByDepartment = async (department) => {
   try {
-    const response = await fetch(`${API_URL}/rack-assignments?department=${encodeURIComponent(department)}`);
+    const response = await fetch(`${API_URL}/api/rack-assignments?department=${encodeURIComponent(department)}`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -45,7 +45,7 @@ export const getBooksByDepartment = async (department) => {
 // Get books by library
 export const getBooksByLibrary = async (library) => {
   try {
-    const response = await fetch(`${API_URL}/rack-assignments?library=${encodeURIComponent(library)}`);
+    const response = await fetch(`${API_URL}/api/rack-assignments?library=${encodeURIComponent(library)}`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -59,7 +59,7 @@ export const getBooksByLibrary = async (library) => {
 // Get books by rack
 export const getBooksByRack = async (rack) => {
   try {
-    const response = await fetch(`${API_URL}/rack-assignments`);
+    const response = await fetch(`${API_URL}/api/rack-assignments`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -74,7 +74,7 @@ export const getBooksByRack = async (rack) => {
 // Get rack information by ID
 export const getRackById = async (rackId) => {
   try {
-    const response = await fetch(`${API_URL}/racks`);
+    const response = await fetch(`${API_URL}/api/racks`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }

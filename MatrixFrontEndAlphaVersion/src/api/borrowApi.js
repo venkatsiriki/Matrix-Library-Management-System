@@ -8,7 +8,7 @@ const getAuthHeader = () => {
 
 export const getBooks = async () => {
   try {
-    const response = await axios.get(`${API_URL}/books`, {
+    const response = await axios.get(`${API_URL}/api/books`, {
       headers: getAuthHeader(),
     });
     console.log("Books response:", response.data);
@@ -21,7 +21,7 @@ export const getBooks = async () => {
 
 export const getBorrowRecords = async (endpoint = "/borrow-records") => {
   try {
-    const response = await axios.get(`${API_URL}${endpoint}`, {
+    const response = await axios.get(`${API_URL}/api${endpoint}`, {
       headers: getAuthHeader(),
     });
     console.log("BorrowRecords response:", response.data);
@@ -48,7 +48,7 @@ export const getStudentByRollNumber = async (rollNumber) => {
 export const borrowBook = async ({ studentId, bookId, dueDate, conditionAtIssue, notes, issuedBy }) => {
   try {
     const response = await axios.post(
-      `${API_URL}/borrow-records/borrow`,
+      `${API_URL}/api/borrow-records/borrow`,
       { studentId, bookId, dueDate, conditionAtIssue, notes, issuedBy },
       { headers: getAuthHeader() }
     );
@@ -61,14 +61,14 @@ export const borrowBook = async ({ studentId, bookId, dueDate, conditionAtIssue,
 };
 
 export const returnBook = async (id, data) => {
-  const response = await axios.patch(`${API_URL}/borrow-records/${id}/return`, data, { headers: getAuthHeader() });
+  const response = await axios.patch(`${API_URL}/api/borrow-records/${id}/return`, data, { headers: getAuthHeader() });
   return response.data.data.record;
 };
 
 export const updateBorrowRecord = async (id, data) => {
   try {
     const response = await axios.patch(
-      `${API_URL}/borrow-records/${id}`,
+      `${API_URL}/api/borrow-records/${id}`,
       data,
       { headers: getAuthHeader() }
     );
@@ -83,7 +83,7 @@ export const updateBorrowRecord = async (id, data) => {
 export const sendReminder = async (id) => {
   try {
     const response = await axios.post(
-      `${API_URL}/borrow-records/${id}/reminder`,
+      `${API_URL}/api/borrow-records/${id}/reminder`,
       {},
       { headers: getAuthHeader() }
     );
@@ -98,7 +98,7 @@ export const sendReminder = async (id) => {
 export const markFinePaid = async (id, paymentMethod) => {
   try {
     const response = await axios.patch(
-      `${API_URL}/borrow-records/${id}/fine/paid`,
+      `${API_URL}/api/borrow-records/${id}/fine/paid`,
       { paymentMethod },
       { headers: getAuthHeader() }
     );
@@ -113,7 +113,7 @@ export const markFinePaid = async (id, paymentMethod) => {
 export const waiveFine = async (id) => {
   try {
     const response = await axios.patch(
-      `${API_URL}/borrow-records/${id}/fine/waived`,
+      `${API_URL}/api/borrow-records/${id}/fine/waived`,
       {},
       { headers: getAuthHeader() }
     );
@@ -127,7 +127,7 @@ export const waiveFine = async (id) => {
 
 export const getStudentBorrowHistory = async (studentId) => {
   try {
-    const response = await axios.get(`${API_URL}/borrow-records/student/${studentId}`, {
+    const response = await axios.get(`${API_URL}/api/borrow-records/student/${studentId}`, {
       headers: getAuthHeader(),
     });
     console.log("Student borrow history response:", response.data);
@@ -140,7 +140,7 @@ export const getStudentBorrowHistory = async (studentId) => {
 
 export const getStudentAnalytics = async () => {
   try {
-    const response = await axios.get(`${API_URL}/activity-logs/analytics`, {
+    const response = await axios.get(`${API_URL}/api/activity-logs/analytics`, {
       headers: getAuthHeader(),
     });
     console.log("Student analytics response:", response.data);
@@ -153,7 +153,7 @@ export const getStudentAnalytics = async () => {
 
 export const getCurrentStudent = async () => {
   try {
-    const response = await axios.get(`${API_URL}/students/profile/me`, {
+    const response = await axios.get(`${API_URL}/api/students/profile/me`, {
       headers: getAuthHeader(),
     });
     return response.data;
@@ -165,7 +165,7 @@ export const getCurrentStudent = async () => {
 
 export const updateCurrentStudent = async (studentData) => {
   try {
-    const response = await axios.put(`${API_URL}/students/profile/me`, studentData, {
+    const response = await axios.put(`${API_URL}/api/students/profile/me`, studentData, {
       headers: getAuthHeader(),
     });
     return response.data;
@@ -178,7 +178,7 @@ export const updateCurrentStudent = async (studentData) => {
 // Search books with location information
 export const searchBooksWithLocation = async (searchQuery) => {
   try {
-    const response = await axios.get(`${API_URL}/books/search/location?query=${encodeURIComponent(searchQuery)}`, {
+    const response = await axios.get(`${API_URL}/api/books/search/location?query=${encodeURIComponent(searchQuery)}`, {
       headers: getAuthHeader(),
     });
     console.log("SearchBooksWithLocation response:", response.data);
@@ -229,7 +229,7 @@ export const extendBorrowPeriod = async (id, dueDate) => {
 
 export const getNotifications = async () => {
   const token = localStorage.getItem('token');
-  const response = await axios.get(`${API_URL}/notifications`, {
+  const response = await axios.get(`${API_URL}/api/notifications`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data.data.notifications;
@@ -237,23 +237,22 @@ export const getNotifications = async () => {
 
 export const markAllNotificationsRead = async () => {
   const token = localStorage.getItem('token');
-  await axios.patch(`${API_URL}/notifications/mark-all-read`, {}, {
+  await axios.patch(`${API_URL}/api/notifications/mark-all-read`, {}, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
 export const markNotificationRead = async (id) => {
   const token = localStorage.getItem('token');
-  await axios.patch(`${API_URL}/notifications/${id}/mark-read`, {}, {
+  await axios.patch(`${API_URL}/api/notifications/${id}/mark-read`, {}, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
 export const getLibraryLeaderboard = async () => {
   const token = localStorage.getItem('token');
-  const response = await axios.get('/api/activity-logs/leaderboard', {
+  const response = await axios.get(`${API_URL}/api/activity-logs/leaderboard`, {
     headers: { Authorization: `Bearer ${token}` },
   });
-  // The leaderboard is in response.data.data.leaderboard
   return response.data.data.leaderboard;
 };
