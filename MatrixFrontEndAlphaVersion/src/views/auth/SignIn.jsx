@@ -713,7 +713,6 @@ export default function SignIn() {
   };
 
   const handleGoogleLogin = () => {
-    // Redirect to Google OAuth endpoint
     window.location.href = `${API_URL}/api/auth/google`;
   };
 
