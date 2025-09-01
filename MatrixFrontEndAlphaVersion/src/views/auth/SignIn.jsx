@@ -225,7 +225,7 @@ const InputField = ({
   </div>
 );
 
-const LoginForm = ({ userType, formData, handleInputChange, handleSubmit, error, isLoading, isDarkMode }) => {
+const LoginForm = ({ userType, formData, handleInputChange, handleSubmit, handleGoogleLogin, error, isLoading, isDarkMode }) => {
   const textStyle = {
     userSelect: 'none',
     WebkitUserSelect: 'none',
@@ -789,6 +789,7 @@ export default function SignIn() {
                       formData={formData}
                       handleInputChange={handleInputChange}
                       handleSubmit={handleSubmit}
+                      handleGoogleLogin={handleGoogleLogin}
                       error={error}
                       isLoading={isLoading}
                       isDarkMode={isDarkMode}
