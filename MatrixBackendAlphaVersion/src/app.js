@@ -75,6 +75,25 @@ app.get("/api", (req, res) => {
   });
 });
 
+// Debug route to test routing
+app.get("/api/debug", (req, res) => {
+  res.json({ 
+    message: "Debug route working", 
+    routes: ["/api/books", "/api/auth", "/api/students"],
+    timestamp: new Date().toISOString()
+  });
+});
+
+// OAuth routes (moved before main routes to avoid conflicts)
+app.get("/api/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+app.get(
+  "/api/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  (req, res) => {
+    res.redirect(process.env.POST_LOGIN_REDIRECT || "https://matrix-library-management-system.vercel.app/student/dashboard");
+  }
+);
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/students", studentRoutes);
@@ -86,16 +105,6 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/books", bookRoutes);
 app.use("/api/racks", rackRoutes);
 app.use("/api/rack-assignments", rackAssignmentRoutes);
-
-// OAuth routes
-app.get("/api/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-app.get(
-  "/api/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  (req, res) => {
-    res.redirect(process.env.POST_LOGIN_REDIRECT || "https://matrix-library-management-system.vercel.app/student/dashboard");
-  }
-);
 
 // Error Handler
 app.use(errorHandler);
