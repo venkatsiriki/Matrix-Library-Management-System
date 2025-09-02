@@ -19,6 +19,9 @@ const errorHandler = require("./middleware/error");
 
 const app = express();
 
+// Trust reverse proxy (needed for correct secure cookies on Render/HTTPS)
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(helmet());
 // CORS configuration
@@ -53,6 +56,12 @@ app.use(
     secret: process.env.SESSION_SECRET || "matrixSecret",
     resave: false,
     saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    },
   })
 );
 
@@ -86,10 +95,10 @@ app.get("/api/debug", (req, res) => {
 
 // OAuth routes (moved before main routes to avoid conflicts)
 if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.GOOGLE_CALLBACK_URL) {
-  app.get("/api/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+  app.get("/api/auth/google", passport.authenticate("google", { scope: ["profile", "email"], session: true }));
   app.get(
     "/api/auth/google/callback",
-    passport.authenticate("google", { failureRedirect: "/login" }),
+    passport.authenticate("google", { failureRedirect: "/login", session: true }),
     (req, res) => {
       res.redirect(process.env.POST_LOGIN_REDIRECT || "https://matrix-library-management-system.vercel.app/student/dashboard");
     }
