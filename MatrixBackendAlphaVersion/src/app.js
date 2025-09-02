@@ -104,6 +104,11 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.
   });
 }
 
+// Simple test route first
+app.get("/api/test", (req, res) => {
+  res.json({ message: "API test route working", timestamp: new Date().toISOString() });
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/students", studentRoutes);
