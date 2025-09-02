@@ -17,7 +17,7 @@ import {
 } from '../../api/rackApi';
 import ChatbotAnnouncement from './ChatbotAnnouncement';
 import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import SyntaxHighlighter from 'react-syntax-highlighter';
 
 // Reusable chat message component
 const ChatMessage = ({ message, isUser }) => (
