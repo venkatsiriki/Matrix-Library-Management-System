@@ -13,16 +13,9 @@ const getBooksByQuery = async (req, res) => {
       query.isnn = isnn;
     }
     
-    // Check if database has any books
-    const bookCount = await Book.countDocuments();
-    console.log(`Found ${bookCount} books in database`);
-    
     const books = await Book.find(query);
-    res.status(200).json({
-      message: "Books retrieved successfully",
-      count: books.length,
-      books: books
-    });
+    // Return plain array to match frontend expectations
+    res.status(200).json(books);
   } catch (error) {
     console.error("Error in getBooksByQuery:", error);
     res.status(500).json({ message: "Server error", error: error.message });
