@@ -225,7 +225,7 @@ const InputField = ({
   </div>
 );
 
-const LoginForm = ({ userType, formData, handleInputChange, handleSubmit, handleGoogleLogin, error, isLoading, isDarkMode }) => {
+const LoginForm = ({ userType, formData, handleInputChange, handleSubmit, error, isLoading, isDarkMode }) => {
   const textStyle = {
     userSelect: 'none',
     WebkitUserSelect: 'none',
@@ -312,10 +312,13 @@ const LoginForm = ({ userType, formData, handleInputChange, handleSubmit, handle
           </div>
         </div>
 
-        {/* Google Login Button */}
+        {/* Google Login Button - Temporarily disabled for build fix */}
         <button
           type="button"
-          onClick={handleGoogleLogin}
+          onClick={() => {
+            console.log('Google login clicked - redeploy test');
+            window.location.href = `${API_URL}/api/auth/google`;
+          }}
           className={`w-full flex items-center justify-center gap-3 py-3 px-4 border rounded-xl font-medium transition-all select-none ${
             isDarkMode
               ? 'border-gray-600 bg-gray-800 text-white hover:bg-gray-700 focus:bg-gray-700'
@@ -712,10 +715,7 @@ export default function SignIn() {
     }
   };
 
-  const handleGoogleLogin = () => {
-    console.log('Google login clicked - redeploy test');
-    window.location.href = `${API_URL}/api/auth/google`;
-  };
+
 
   return (
     <MainContainer>
@@ -790,7 +790,6 @@ export default function SignIn() {
                       formData={formData}
                       handleInputChange={handleInputChange}
                       handleSubmit={handleSubmit}
-                      handleGoogleLogin={handleGoogleLogin}
                       error={error}
                       isLoading={isLoading}
                       isDarkMode={isDarkMode}
