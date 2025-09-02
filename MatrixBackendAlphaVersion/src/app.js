@@ -55,7 +55,8 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET || "matrixSecret",
     resave: false,
-    saveUninitialized: false,
+    // Set true so the browser receives a session cookie before OAuth starts
+    saveUninitialized: true,
     cookie: {
       httpOnly: true,
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',

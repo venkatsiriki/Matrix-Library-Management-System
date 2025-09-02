@@ -3,6 +3,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/User');
 
 const configurePassport = () => {
+  // Defensive: if env missing, log and skip configuring GoogleStrategy
   // Only configure Google Strategy if environment variables are set
   if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.GOOGLE_CALLBACK_URL) {
     passport.use(
@@ -33,9 +34,10 @@ const configurePassport = () => {
     console.log('Google OAuth not configured - missing environment variables');
   }
 
+  // Serialize minimal info to keep session small
   passport.serializeUser((user, done) => done(null, user.id));
   passport.deserializeUser((id, done) => {
-    User.findById(id).then((user) => done(null, user)).catch(done);
+    User.findById(id).select('_id name email role').then((user) => done(null, user)).catch(done);
   });
 };
 
