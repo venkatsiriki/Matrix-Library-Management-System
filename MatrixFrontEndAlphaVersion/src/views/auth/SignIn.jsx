@@ -713,6 +713,7 @@ export default function SignIn() {
   };
 
   const handleGoogleLogin = () => {
+    console.log('Google login clicked');
     window.location.href = `${API_URL}/api/auth/google`;
   };
 
