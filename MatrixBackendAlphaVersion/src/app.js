@@ -85,14 +85,24 @@ app.get("/api/debug", (req, res) => {
 });
 
 // OAuth routes (moved before main routes to avoid conflicts)
-app.get("/api/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-app.get(
-  "/api/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  (req, res) => {
-    res.redirect(process.env.POST_LOGIN_REDIRECT || "https://matrix-library-management-system.vercel.app/student/dashboard");
-  }
-);
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET && process.env.GOOGLE_CALLBACK_URL) {
+  app.get("/api/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+  app.get(
+    "/api/auth/google/callback",
+    passport.authenticate("google", { failureRedirect: "/login" }),
+    (req, res) => {
+      res.redirect(process.env.POST_LOGIN_REDIRECT || "https://matrix-library-management-system.vercel.app/student/dashboard");
+    }
+  );
+} else {
+  // Fallback routes when Google OAuth is not configured
+  app.get("/api/auth/google", (req, res) => {
+    res.json({ message: "Google OAuth not configured", error: "Missing environment variables" });
+  });
+  app.get("/api/auth/google/callback", (req, res) => {
+    res.json({ message: "Google OAuth not configured", error: "Missing environment variables" });
+  });
+}
 
 // Routes
 app.use("/api/auth", authRoutes);
